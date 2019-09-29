@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: '@project.name@'
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles: local
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+
+broker:
+  addresses: "localhost:5672"
+  exchange: example
+  queue: queue
+  routing-key: queue.v1
+  username: "guest"
+  password: "guest"
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# Management endpoints actuator
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include:
+          - health
+          - metrics
+          - info
+  metrics:
+    enable:
+      jvm.memory.used: true
+      process.uptime: true
+      jdbc.connections.active: true
+      process.cpu.usage: true
+      all: false
